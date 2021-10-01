@@ -13,7 +13,7 @@ public class StateCovidSummaryDataProcessor implements ItemProcessor<StateCovidS
         stateCovidSummary.setTotalDeaths(getValidDouble(covidInput.getTotalDeaths()));
         stateCovidSummary.setTotalRecovered(getValidDouble(covidInput.getTotalRecovered()));
         stateCovidSummary.setActiveCases(getValidDouble(covidInput.getActiveCases()));
-        stateCovidSummary.setTestsPerOneMilPopulation(getValidDouble(covidInput.getTotalCasesPerOneMilPopulation()));
+        stateCovidSummary.setTotalCasesPerOneMilPopulation(getValidDouble(covidInput.getTotalCasesPerOneMilPopulation()));
         stateCovidSummary.setDeathPerOneMilPopulation(getValidDouble(covidInput.getDeathPerOneMilPopulation()));
         stateCovidSummary.setTotalTests(getValidDouble(covidInput.getTotalTests()));
         stateCovidSummary.setTestsPerOneMilPopulation(getValidDouble(covidInput.getTestsPerOneMilPopulation()));

@@ -5,6 +5,7 @@ import com.vengateshm.CovidDashboard.repository.CovidSummaryRepository;
 import com.vengateshm.CovidDashboard.response.DashboardSummaryResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,5 +42,10 @@ public class DashBoardController {
         response.setTotalPopulation(totalPopulation);
 
         return response;
+    }
+
+    @GetMapping("/api/v1/summary/{stateName}")
+    public StateCovidSummary getStateCovidSummary(@PathVariable String stateName) {
+        return this.repository.findByState(stateName);
     }
 }
