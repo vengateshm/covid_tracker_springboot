@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = DashBoardController.class)
-public class DashBoardControllerTest {
+public class DashBoardControllerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
