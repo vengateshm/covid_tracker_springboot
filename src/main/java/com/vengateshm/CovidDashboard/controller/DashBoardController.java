@@ -1,8 +1,8 @@
 package com.vengateshm.CovidDashboard.controller;
 
 import com.vengateshm.CovidDashboard.model.StateCovidSummary;
-import com.vengateshm.CovidDashboard.repository.CovidSummaryRepository;
 import com.vengateshm.CovidDashboard.response.DashboardSummaryResponse;
+import com.vengateshm.CovidDashboard.service.DashboardService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +14,15 @@ import java.util.List;
 @CrossOrigin
 public class DashBoardController {
 
-    final CovidSummaryRepository repository;
+    final DashboardService service;
 
-    public DashBoardController(CovidSummaryRepository repository) {
-        this.repository = repository;
+    public DashBoardController(DashboardService service) {
+        this.service = service;
     }
 
     @GetMapping("/api/v1/dashboardSummary")
     public DashboardSummaryResponse getDashboardSummary() {
-        List<StateCovidSummary> stateCovidSummaries = this.repository.findAll();
+        List<StateCovidSummary> stateCovidSummaries = this.service.findAll();
         DashboardSummaryResponse response = new DashboardSummaryResponse();
 
         int totalStates = stateCovidSummaries.size();
@@ -46,6 +46,6 @@ public class DashBoardController {
 
     @GetMapping("/api/v1/summary/{stateName}")
     public StateCovidSummary getStateCovidSummary(@PathVariable String stateName) {
-        return this.repository.findByState(stateName);
+        return this.service.findByState(stateName);
     }
 }
