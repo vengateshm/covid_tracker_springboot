@@ -3,11 +3,11 @@ package com.vengateshm.CovidDashboard.controller;
 import com.vengateshm.CovidDashboard.model.StateCovidSummary;
 import com.vengateshm.CovidDashboard.response.DashboardSummaryResponse;
 import com.vengateshm.CovidDashboard.service.DashboardService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -20,32 +20,27 @@ public class DashBoardController {
         this.service = service;
     }
 
-    @GetMapping("/api/v1/dashboardSummary")
+    @GetMapping("/api/v1/summary/dashBoard")
     public DashboardSummaryResponse getDashboardSummary() {
-        List<StateCovidSummary> stateCovidSummaries = this.service.findAll();
-        DashboardSummaryResponse response = new DashboardSummaryResponse();
+        return this.service.getDashboardSummary();
+    }
 
-        int totalStates = stateCovidSummaries.size();
-        int totalCases = stateCovidSummaries.stream().mapToInt(value -> (int) value.getTotalCases()).sum();
-        int totalDeaths = stateCovidSummaries.stream().mapToInt(value -> (int) value.getTotalDeaths()).sum();
-        int totalRecovered = stateCovidSummaries.stream().mapToInt(value -> (int) value.getTotalRecovered()).sum();
-        int totalActiveCases = stateCovidSummaries.stream().mapToInt(value -> (int) value.getActiveCases()).sum();
-        int totalTests = stateCovidSummaries.stream().mapToInt(value -> (int) value.getTotalTests()).sum();
-        int totalPopulation = stateCovidSummaries.stream().mapToInt(value -> (int) value.getPopulation()).sum();
-
-        response.setTotalStates(totalStates);
-        response.setTotalCases(totalCases);
-        response.setTotalDeaths(totalDeaths);
-        response.setTotalRecovered(totalRecovered);
-        response.setTotalActiveCases(totalActiveCases);
-        response.setTotalTests(totalTests);
-        response.setTotalPopulation(totalPopulation);
-
-        return response;
+    @GetMapping("/api/v1/summary/allStates")
+    public List<StateCovidSummary> getAllStateSummary() {
+        return this.service.findAll();
     }
 
     @GetMapping("/api/v1/summary/{stateName}")
     public StateCovidSummary getStateCovidSummary(@PathVariable String stateName) {
         return this.service.findByState(stateName);
+    }
+
+    @PostMapping("/api/v1/summary")
+    public ResponseEntity<Void> saveCovidSummary(@RequestBody StateCovidSummary summary) {
+        StateCovidSummary savedSummary = service.save(summary);
+        if (savedSummary == null) return ResponseEntity.noContent().build();
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        return ResponseEntity.created(location).build();
     }
 }

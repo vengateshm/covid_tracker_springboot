@@ -97,4 +97,11 @@ public class StateCovidSummary {
     public void setPopulation(double population) {
         this.population = population;
     }
+
+    public StateCovidSummary() {
+    }
+
+    public StateCovidSummary(String state) {
+        this.state = state;
+    }
 }
